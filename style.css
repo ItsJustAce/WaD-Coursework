@@ -41,6 +41,18 @@ form {
 select, input {
     margin-right: 15px;
     margin-bottom: 10px;
+
+    border: 2px solid #111;
+    border-radius: 4px;
+    background-color: rgb(109, 83, 134);
+    color: white;
+
+    height: 30px;
+
+}
+
+select:focus, input:focus {
+    border: 2px solid #555;
 }
 
 .centrecontent {
