@@ -57,3 +57,7 @@ select, input {
 p {
     text-align: justify;
 }
+
+td, table, th {
+    padding: 10px 10px;
+}
