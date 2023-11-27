@@ -1,9 +1,16 @@
+* {
+    overflow:hidden;
+}
+h1 {
+    margin: 10px;
+}
+
 ul {
     list-style-type: none;
     margin: 0;
     padding: 0;
     overflow: hidden;
-    background-color: #333;
+    background-color: rgb(109, 83, 134);
     border-radius: 10px;
   }
 
@@ -31,7 +38,7 @@ body {
 
 /* Change the link color to #111 (black) on hover */
 li a:hover {
-    background-color: #111;
+    background-color:  rgb(85, 65, 104);
 }
 form {
     text-align: center;
@@ -50,9 +57,12 @@ select, input {
     height: 30px;
 
 }
-input[type=button]:hover{
-    opacity: 0.8;
+
+.logincontainer select, .logincontainer input {
+    margin: 0px;
+    margin-bottom: 10px;
 }
+
 select:focus, input:focus {
     border: 2px solid #555;
 }
@@ -60,12 +70,21 @@ select:focus, input:focus {
 .centrecontent {
     border-radius: 25px;
     background-color: white;
-    display: block;
-    margin: 0 auto;
-    width:50%;
-    top: 50%;
-    transform: translateY(50%);
-    padding: 20px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    margin-left: 10%;
+    margin-right: 10%;
+}
+
+.centrecontent p {
+    margin: 20px;
+}
+
+@media (max-width: 600px) {
+    li {
+        font-size: 10px;
+    }
 }
 
 p {
