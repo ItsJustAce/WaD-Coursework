@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% block head %} 
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type = "text/css" href="{{ url_for('static', filename='css/style.css') }}">    
+    <title>{% block title %}{% endblock %} - World Hotels</title>
+    {% endblock %}
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><p>World Hotels</p></li>
+            <li><a href="{{ url_for('home') }}">Home</a></li>
+            <li><a href="{{ url_for('account') }}">My Account</a></li>
+            <li style="float:right;"><a href="{{ url_for('login') }}">Login</a></li>
+        </ul>
+    </nav><br>
+
+    <section class="centrecontent">
+        {% block content %}{% endblock %}
+    </section>
+</body>
+</html>
