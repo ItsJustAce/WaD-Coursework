@@ -23,12 +23,13 @@ db = MySQL(app)
 if __name__ == "__main__":
     app.run(debug=True)
 
-def queryDB(query: str):
+#run a query on the database
+def queryDB(query: str) -> tuple:
     cursor = db.connection.cursor(MySQLdb.cursors.DictCursor)
     cursor.execute(query)
     return cursor.fetchall()
 
-
+#page routing
 @app.route("/")
 @app.route("/index/")
 @app.route("/home/")
@@ -47,5 +48,5 @@ def account():
 
 @app.route("/DBTEST/")
 def dbtest():
-
-    return str(queryDB('SELECT * FROM users;'))
+    result = queryDB('SELECT * FROM users;')
+    return result[0]
