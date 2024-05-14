@@ -23,6 +23,10 @@ db = MySQL(app)
 if __name__ == "__main__":
     app.run(debug=True)
 
+def queryDB(query: str):
+    cursor = db.connection.cursor(MySQLdb.cursors.DictCursor)
+    cursor.execute(query)
+    return cursor.fetchall()
 
 
 @app.route("/")
@@ -43,7 +47,5 @@ def account():
 
 @app.route("/DBTEST/")
 def dbtest():
-    cursor = db.connection.cursor(MySQLdb.cursors.DictCursor)
-    cursor.execute('SELECT * FROM users')
-    print(cursor.fetchall())
-    return "test"
+
+    return str(queryDB('SELECT * FROM users;'))
