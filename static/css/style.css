@@ -106,3 +106,7 @@ th {
     border: 1px solid;
     border-collapse: collapse;
 }
+
+.loginout{
+    float: right;
+}

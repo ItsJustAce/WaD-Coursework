@@ -3,12 +3,13 @@
 {% block content %}
 <h1 style="text-align: center;">Login</h1>
 <form action="{{ url_for('login') }}" method="post">
-    <p>{{ msg }}</p>
+
     <input id="username" name="username" type="text" placeholder="Enter username..."> <br>
     <input id="password" name="password" type="password" placeholder="Enter password...">
     <br>
     <input type="submit" value="Login">
     <input type="submit" type="btn" value="Sign Up">
+    <p style="text-align: center;">{{ msg }}</p>
 </form>
 <p style="text-align: center;"><i><u>Forgot password?</u></i></p>
 {% endblock %}

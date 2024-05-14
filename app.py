@@ -39,7 +39,7 @@ def home():
 
 @app.route("/login/", methods =['GET', 'POST'])
 def login():
-    msg = 'balls'
+    msg = ''
     if request.method == 'POST':
         print("post!")
     if request.method == 'POST' and 'username' in request.form and 'password' in request.form:
@@ -61,8 +61,15 @@ def login():
 
 @app.route("/account/")
 def account():
-    name = "balls"
+    name = session['username']
     return render_template("account.html", name=name)
+
+@app.route('/logout')
+def logout():
+    session.pop('loggedin', None)
+    session.pop('id', None)
+    session.pop('username', None)
+    return redirect(url_for('login'))
 
 @app.route("/DBTEST/")
 def dbtest():
