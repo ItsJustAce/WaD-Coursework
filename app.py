@@ -37,20 +37,24 @@ if __name__ == "__main__":
     app.run(debug=True)
 
 #run a query on the database
-def query_db(model, filters=None):
+def query_db(model:object , filters=None) -> object:
+    #begin a session for the query and bind it to the database
     Session = sessionmaker(bind=db.engine)
     session = Session()
 
     query = session.query(model)
+    #check if there is filters and therefore filter the query
     if filters:
         query = query.filter_by(**filters)
 
+    #return the FIRST element found
     result = query.first()  # Modify this to fetchall() if needed
 
+    #end the session and return the findings
     session.close()
     return result
 
-def writeDB(query):
+def writeDB(query: object) -> None:
     db.session.add(query)
     db.session.commit()
 
@@ -97,11 +101,11 @@ def register():
         email = request.form['email']
         tel = request.form['tel']
 
-        email = query_db(User, filters={'email': email})
-        username = query_db(User, filters={'username': username})
-        if email:
+        email_exists = query_db(User, filters={'email': email})
+        username_exists = query_db(User, filters={'username': username})
+        if email_exists:
             msg = 'Account already exists !'
-        elif username:
+        elif username_exists:
             msg = 'Username taken !'
         elif not re.match(r'[^@]+@[^@]+\.[^@]+', email):
             msg = 'Invalid email address !'
