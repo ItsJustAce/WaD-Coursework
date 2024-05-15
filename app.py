@@ -6,10 +6,8 @@ WorldHotels flask website for booking and managing hotels and their rooms
 """
 
 from flask import Flask, render_template, request, redirect, url_for, session
-from flask_mysqldb import MySQL
 from flask_sqlalchemy import SQLAlchemy
 from flask_admin import Admin
-import MySQLdb.cursors
 import re
 from sqlalchemy.orm import sessionmaker
 
