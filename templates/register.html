@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Register{% endblock %}
+{% block content %}
+<h1 style="text-align: center;">Register now</h1>
+<form action="{{ url_for('register') }}" method="post">
+
+    <input id="username" name="username" type="text" placeholder="Enter username..."> <br>
+    <input id="password" name="password" type="password" placeholder="Enter password..."> <br>
+    <input id="email" name="email" type="email" placeholder="Enter email..."><br>
+    <input id="tel" name="tel" type="tel" placeholder="Enter tel. no....">
+
+
+    <br>
+    <input type="submit" type="btn" value="Sign Up">
+    <p style="text-align: center;">{{ msg }}</p>
+</form>
+<p style="text-align: center;"><i><u>Forgot password?</u></i></p>
+{% endblock %}

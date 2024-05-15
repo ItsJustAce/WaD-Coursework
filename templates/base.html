@@ -14,7 +14,7 @@
             <li><p><b>World Hotels</b></p></li>
             <li><a href="{{ url_for('home') }}">Home</a></li>
             <li><a href="{{ url_for('account') }}">My Account</a></li>
-            {% if session.get('loggedin', False) %}
+            {% if session.get('loggedin') == True %}
             <li class="loginout"><a href="{{ url_for('logout') }}">Logout</a></li>
             {% endif %}
 
