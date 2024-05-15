@@ -67,13 +67,13 @@ class Feature(Base):
 
     id = Column(Integer, primary_key=True)
     name = Column(String(20))
-    rooms = relationship(Room, secondaryjoin='features_rooms')  # ManyToMany relationship
+    #rooms = relationship(Room)  # ManyToMany relationship
 
-features_rooms = Table('features_rooms',
-    Base.metadata,
-    Column('feature_id', Integer, ForeignKey('features.id')),
-    Column('room_id', Integer, ForeignKey('rooms.id'))
-)
+# features_rooms = Table('features_rooms',
+#     Base.metadata,
+#     Column('feature_id', Integer, ForeignKey('features.id')),
+#     Column('room_id', Integer, ForeignKey('rooms.id'))
+# )
 
 class Currency(Base):
     __tablename__ = 'currencies'

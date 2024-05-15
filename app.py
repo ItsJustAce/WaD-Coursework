@@ -10,10 +10,13 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_admin import Admin
 import re
 from sqlalchemy.orm import sessionmaker
+from flask_admin.contrib.sqla import ModelView
 
 from models import User
 
 app = Flask(__name__)  
+
+admin = Admin(app)
 
 app.secret_key = 'secret'
 
@@ -30,6 +33,11 @@ db = SQLAlchemy(app)
 # app.config['MYSQL_DB'] = 'WaD'
 #
 # db = MySQL(app)
+
+class UserView(ModelView):
+    pass
+
+admin.add_view(UserView(User, db.session))
 
 if __name__ == "__main__":
     app.run(debug=True)
