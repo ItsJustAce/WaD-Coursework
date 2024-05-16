@@ -99,7 +99,11 @@ def home():
             pricing = selected_city.peak # change to select based on month
             today_date = datetime.date.today()
             booking_date = datetime.datetime.strptime(checkin, '%Y-%m-%d').date() # Replace with booking date
+            checkout_date = datetime.datetime.strptime(checkout, '%Y-%m-%d').date() # Replace with booking date
+
             total = calculate.calculate_booking_price(pricing, booking_date, today_date)
+            total = total * (checkout_date - booking_date).days # calculate how many days to charge per night
+
             booking = Booking(user_id=user.id, city_id=selected_city.id, check_in=checkin, check_out=checkout, total_price=total)
             
             # Add the booking to the session and commit changes
