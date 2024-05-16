@@ -12,7 +12,8 @@ import re
 from sqlalchemy.orm import sessionmaker
 from flask_admin.contrib.sqla import ModelView
 from sqlalchemy import join
-
+import calculate
+import datetime
 from models import User, City, RoomType, Booking, Feature
 import models
 
@@ -39,6 +40,10 @@ class UserView(ModelView):
     pass
 
 admin.add_view(UserView(User, db.session))
+admin.add_view(UserView(City, db.session))
+admin.add_view(UserView(Booking, db.session))
+
+
 
 # Create all tables
 def create_tables():
@@ -89,10 +94,13 @@ def home():
             checkin = request.form['in']
             checkout = request.form['out']
 
-            user = db.session.query(User).filter_by(id=session.get('id')).first()  # Replace user_id with logic to get the current user
-            selected_city = db.session.query(City).filter_by(name=city).first()  # Modify search logic if needed
-            
-            booking = Booking(user_id=user.id, city_id=selected_city.id, check_in=checkin, check_out=checkout)
+            user = db.session.query(User).filter_by(id=session.get('id')).first() 
+            selected_city = db.session.query(City).filter_by(name=city).first()  
+            pricing = selected_city.peak # change to select based on month
+            today_date = datetime.date.today()
+            booking_date = datetime.datetime.strptime(checkin, '%Y-%m-%d').date() # Replace with booking date
+            total = calculate.calculate_booking_price(pricing, booking_date, today_date)
+            booking = Booking(user_id=user.id, city_id=selected_city.id, check_in=checkin, check_out=checkout, total_price=total)
             
             # Add the booking to the session and commit changes
             db.session.add(booking)
