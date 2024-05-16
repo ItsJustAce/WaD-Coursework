@@ -16,6 +16,7 @@ import calculate
 import datetime
 from models import User, City, RoomType, Booking, Feature
 import models
+from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)  
 
@@ -125,10 +126,11 @@ def home():
 def reset():
     if request.method == 'POST' and 'password' in request.form:
         password = request.form['password']
+        hashed_password = generate_password_hash(password)
 
         account = query_db(User, filters={'id': session.get('id')})
         print(account)
-        account.hashed_password = password
+        account.hashed_password = hashed_password
         print(account.hashed_password)
 
         db.session.commit()
@@ -146,7 +148,7 @@ def login():
         username = request.form['username']
         password = request.form['password']
 
-        account = query_db(User, filters={'email': username,'hashed_password': password})
+        account = query_db(User, filters={'email': username,'hashed_password': check_password_hash(password)})
         if account:
             session['loggedin'] = True
             session['id'] = account.id
@@ -188,7 +190,7 @@ def register():
             user = User(
                 email=email,
                 phone_number=tel,  # Assuming 'tel' contains a phone number (integer)
-                hashed_password=password,
+                hashed_password=generate_password_hash(password),
                 username=username
             )
             writeDB(user)
