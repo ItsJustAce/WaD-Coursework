@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}Confirmation{% endblock %}
+{% block content %}
+<h1 style="text-align: center;">Confirmation</h1>
+<p style="text-align: center;">Hotel booked! Continue below to finish payment.</p>
+<table>
+    <tr>
+        <th>Booking Number</th>
+        <th>City Name</th>
+        <th>Room</th>
+        <th>Price</th>
+        <th>Check In</th>
+        <th>Check Out</th>
+    </tr>
+        <tr>
+            <td>{{ booking.id }}</td>
+            <td>{{ city }}</td>
+            <td>{{ type }}</td>
+            <td>£{{ booking.total_price }}</td>
+            <td>{{ booking.check_in.strftime('%Y-%m-%d') }}</td>
+            <td>{{ booking.check_out.strftime('%Y-%m-%d') }}</td>
+            <td>        
+                <form action="/cancel_booking/{{ booking.id }}" method="POST">
+                    <button type="submit">Cancel Booking</button>
+            </form>
+            </td>
+        </tr>
+</table>
+<p style="text-align: center;"><a href="{{url_for('home')}}">Pay Now</a></p>
+
+
+{% endblock %}

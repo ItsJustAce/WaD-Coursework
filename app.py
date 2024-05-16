@@ -37,7 +37,15 @@ db = SQLAlchemy(app)
 # db = MySQL(app)
 
 class UserView(ModelView):
-    pass
+
+    def is_accessible(self):
+        if session.get('username') == "admin":
+            return True
+        return False
+
+    def inaccessible_callback(self, name, **kwargs):
+        # redirect to login page if user doesn't have access
+        return redirect(url_for('login', next=request.url))
 
 admin.add_view(UserView(User, db.session))
 admin.add_view(UserView(City, db.session))
@@ -109,10 +117,24 @@ def home():
             # Add the booking to the session and commit changes
             db.session.add(booking)
             db.session.commit()
-
             print(type, city)
+            return render_template("confirmation.html", booking=booking, city=selected_city.name, type=type)
     return render_template("index.html")
+#reset password page
+@app.route("/reset/", methods =['GET', 'POST'])
+def reset():
+    if request.method == 'POST' and 'password' in request.form:
+        password = request.form['password']
 
+        account = query_db(User, filters={'id': session.get('id')})
+        print(account)
+        account.hashed_password = password
+        print(account.hashed_password)
+
+        db.session.commit()
+        return redirect(url_for('home'))
+
+    return render_template('reset.html')
 #login page
 @app.route("/login/", methods =['GET', 'POST'])
 def login():

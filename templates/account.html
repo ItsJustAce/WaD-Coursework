@@ -6,6 +6,7 @@
     <h2 style="text-align: center;">Bookings</h2>
     <table>
         <tr>
+            <th>Booking Number</th>
             <th>City Name</th>
             <th>Price</th>
             <th>Check In</th>
@@ -13,8 +14,9 @@
         </tr>
             {% for booking in bookings %}
             <tr>
+                <td>{{ booking.id }}</td>
                 <td>{{ booking.city_id }}</td>
-                <td>{{ booking.total_price }}</td>
+                <td>£{{ booking.total_price }}</td>
                 <td>{{ booking.check_in.strftime('%Y-%m-%d') }}</td>
                 <td>{{ booking.check_out.strftime('%Y-%m-%d') }}</td>
                 <td>        
