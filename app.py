@@ -5,19 +5,20 @@ Version 1
 WorldHotels flask website for booking and managing hotels and their rooms
 """
 
-from flask import Flask, render_template, request, redirect, url_for, session
+from flask import Flask, render_template, request, redirect, url_for, session, flash
 from flask_sqlalchemy import SQLAlchemy
 from flask_admin import Admin
 import re
 from sqlalchemy.orm import sessionmaker
 from flask_admin.contrib.sqla import ModelView
+from sqlalchemy import join
 
-from models import User
+from models import User, City, RoomType, Booking, Feature
+import models
 
 app = Flask(__name__)  
 
 admin = Admin(app)
-
 app.secret_key = 'secret'
 
 #sqlalchemy setup
@@ -38,6 +39,10 @@ class UserView(ModelView):
     pass
 
 admin.add_view(UserView(User, db.session))
+
+# Create all tables
+def create_tables():
+    models.Base.metadata.create_all(bind=db.engine)
 
 if __name__ == "__main__":
     app.run(debug=True)
@@ -69,8 +74,31 @@ def writeDB(query: object) -> None:
 #home page
 @app.route("/")
 @app.route("/index/")
-@app.route("/home/")
+@app.route("/home/", methods =['GET', 'POST'])
 def home():
+    create_tables()
+    if request.method == 'POST':
+        if not session.get('loggedin'):
+            print("not logged in!"  )
+            return render_template('login.html', msg = "Please log in before attempting to search!")
+        
+        elif 'type' in request.form and 'city' in request.form and 'in' in request.form and 'out' in request.form:
+            print("request!")
+            type = request.form['type']
+            city = request.form['city']
+            checkin = request.form['in']
+            checkout = request.form['out']
+
+            user = db.session.query(User).filter_by(id=session.get('id')).first()  # Replace user_id with logic to get the current user
+            selected_city = db.session.query(City).filter_by(name=city).first()  # Modify search logic if needed
+            
+            booking = Booking(user_id=user.id, city_id=selected_city.id, check_in=checkin, check_out=checkout)
+            
+            # Add the booking to the session and commit changes
+            db.session.add(booking)
+            db.session.commit()
+
+            print(type, city)
     return render_template("index.html")
 
 #login page
@@ -91,7 +119,7 @@ def login():
             session['email'] = account.email
             session['username'] = account.username
             msg = 'Logged in successfully !'
-            return render_template('login.html', msg = msg)
+            return redirect(url_for('account'))
         else:
             msg = 'Incorrect username / password !'
     return render_template('login.html', msg = msg)
@@ -141,10 +169,33 @@ def register():
 def account():
     if session.get('loggedin') == True:
         name = session['username']
-        return render_template("account.html", name=name)
+        user_id = session['id']
+        # bookings = db.session.query(Booking).filter_by(user_id=user_id).all()
+        # bookings = db.session.query(Booking).filter_by(user_id=user_id)\
+        # .join(City).filter_by(id=Booking.city_id).all()
+
+        bookings = db.session.query(Booking) \
+            .filter_by(user_id=user_id) \
+            .all()
+        return render_template('account.html', name=name, bookings=bookings)
     else:
         msg = "Please log in before viewing your account."
         return render_template('login.html', msg = msg)
+
+@app.route('/cancel_booking/<int:booking_id>', methods=['POST'])
+def cancel_booking(booking_id):
+  booking = query_db(Booking, filters={'id': booking_id})
+  if booking and booking.user_id == session.get('id'):  # Check user ownership
+    booking.is_cancelled = True
+    db.session.delete(booking)
+    db.session.commit()
+    print("Cancelled")
+    db.session.commit()
+
+    return redirect(url_for('account'))  # Redirect back to account page
+  else:
+    flash('Error: Invalid booking or unauthorized cancellation.')
+    return redirect(url_for('account'))
 
 #remove user from session and redirect to login
 @app.route('/logout')

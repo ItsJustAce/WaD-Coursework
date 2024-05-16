@@ -1,0 +1,20 @@
+cities_data = [
+    {'name': 'Aberdeen', 'capacity': 90},
+    {'name': 'Belfast', 'capacity': 80},
+    {'name': 'Birmingham', 'capacity': 110},
+    {'name': 'Bristol', 'capacity': 100},
+    {'name': 'Cardiff', 'capacity': 90},
+    {'name': 'Edinburgh', 'capacity': 120},
+    {'name': 'Glasgow', 'capacity': 140},
+    {'name': 'London', 'capacity': 160},
+    {'name': 'Manchester', 'capacity': 150},
+    {'name': 'New Castle', 'capacity': 90},
+    {'name': 'Norwich', 'capacity': 90},
+    {'name': 'Nottingham', 'capacity': 110},
+    {'name': 'Oxford', 'capacity': 90},
+    {'name': 'Plymouth', 'capacity': 80},
+    {'name': 'Swansea', 'capacity': 70},
+    {'name': 'Bournemouth', 'capacity': 90},
+    {'name': 'Kent', 'capacity': 100},
+]
+

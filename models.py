@@ -19,6 +19,8 @@ class City(Base):
     id = Column(Integer, primary_key=True)
     name = Column(String(50), unique=True)
     capacity = Column(Integer)
+    peak = Column(Integer)
+    off_peak = Column(Integer)
 
 class RoomType(Base):
     __tablename__ = 'room_types'
@@ -27,30 +29,30 @@ class RoomType(Base):
     name = Column(String(20), unique=True)
     max_occupancy = Column(Integer)
 
-class Hotel(Base):
-    __tablename__ = 'hotels'
+# class Hotel(Base):
+#     __tablename__ = 'hotels'
 
-    id = Column(Integer, primary_key=True)
-    name = Column(String(50), unique=True)
-    city_id = Column(Integer, ForeignKey('cities.id'))
-    city = relationship(City)
+#     id = Column(Integer, primary_key=True)
+#     name = Column(String(50), unique=True)
+#     city_id = Column(Integer, ForeignKey('cities.id'))
+#     city = relationship(City)
 
-class Room(Base):
-    __tablename__ = 'rooms'
+# class Room(Base):
+#     __tablename__ = 'rooms'
 
-    id = Column(Integer, primary_key=True)
-    hotel_id = Column(Integer, ForeignKey('hotels.id'))
-    room_type_id = Column(Integer, ForeignKey('room_types.id'))
-    hotel = relationship(Hotel)
-    room_type = relationship(RoomType)
+#     id = Column(Integer, primary_key=True)
+#     hotel_id = Column(Integer, ForeignKey('hotels.id'))
+#     room_type_id = Column(Integer, ForeignKey('room_types.id'))
+#     # hotel = relationship(Hotel)
+#     room_type = relationship(RoomType)
 
 class Booking(Base):
     __tablename__ = 'bookings'
 
     id = Column(Integer, primary_key=True)
     user_id = Column(Integer, ForeignKey('users.id'))  # Replace 'users' with your user model table name
-    hotel_id = Column(Integer, ForeignKey('hotels.id'))
-    room_id = Column(Integer, ForeignKey('rooms.id'))
+    city_id = Column(Integer, ForeignKey('cities.id'))
+    # room_id = Column(Integer, ForeignKey('rooms.id'))
     check_in = Column(Date)
     check_out = Column(Date)
     num_guests = Column(Integer)
@@ -58,9 +60,8 @@ class Booking(Base):
     discount = Column(Float)
     total_price = Column(Float)
     is_cancelled = Column(Boolean, default=False)
-    user = relationship(User)  # Replace 'User' with your user model class name
-    hotel = relationship(Hotel)
-    room = relationship(Room)
+    # hotel = relationship(Hotel)
+    # room = relationship(Room)
 
 class Feature(Base):
     __tablename__ = 'features'
@@ -75,18 +76,18 @@ class Feature(Base):
 #     Column('room_id', Integer, ForeignKey('rooms.id'))
 # )
 
-class Currency(Base):
-    __tablename__ = 'currencies'
+# class Currency(Base):
+#     __tablename__ = 'currencies'
 
-    id = Column(Integer, primary_key=True)
-    name = Column(String(10))
-    # Add fields for exchange rates or methods to calculate based on another currency
+#     id = Column(Integer, primary_key=True)
+#     name = Column(String(10))
+#     # Add fields for exchange rates or methods to calculate based on another currency
 
-class Price(Base):
-    __tablename__ = 'prices'
+# class Price(Base):
+#     __tablename__ = 'prices'
 
-    id = Column(Integer, primary_key=True)
-    season = Column(String(20), Enum('peak', 'off-peak'))
-    currency_id = Column(Integer, ForeignKey('currencies.id'))
-    room_type_id = Column(Integer, ForeignKey('room_types.id'))
-    amount = Column(Float)  # Price per night
+#     id = Column(Integer, primary_key=True)
+#     season = Column(String(20), Enum('peak', 'off-peak'))
+#     currency_id = Column(Integer, ForeignKey('currencies.id'))
+#     room_type_id = Column(Integer, ForeignKey('room_types.id'))
+#     amount = Column(Float)  # Price per night

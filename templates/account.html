@@ -6,17 +6,23 @@
     <h2 style="text-align: center;">Bookings</h2>
     <table>
         <tr>
+            <th>City Name</th>
+            <th>Price</th>
             <th>Check In</th>
             <th>Check Out</th>
-            <th>Room Type</th>
-            <th>Price</th>
         </tr>
-        <tr>
-            <td>Date</td>
-            <td>Date</td>
-            <td>Standard</td>
-            <td>£0.00</td>
-            <td><input type="button" value="Cancel"></td>
-        </tr>
+            {% for booking in bookings %}
+            <tr>
+                <td>{{ booking.city_id }}</td>
+                <td>{{ booking.total_price }}</td>
+                <td>{{ booking.check_in.strftime('%Y-%m-%d') }}</td>
+                <td>{{ booking.check_out.strftime('%Y-%m-%d') }}</td>
+                <td>        
+                    <form action="/cancel_booking/{{ booking.id }}" method="POST">
+                        <button type="submit">Cancel Booking</button>
+                </form>
+                </td>
+            </tr>
+            {% endfor %}
     </table>
 {% endblock %}

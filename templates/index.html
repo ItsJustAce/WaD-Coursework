@@ -2,13 +2,13 @@
 {% block title %}Home{% endblock %}
 {% block content %}
     <h1 style="text-align: center;">Book your hotel now</h1>
-    <form>
-        <input type="text" placeholder="Enter text...">
-        <select>
+    <form action="{{ url_for('home') }}" method="post">
+        <select name="type">
             <option>Standard Room</option>
-            <option>Deluxe Room</option>
+            <option>Double Room</option>
+            <option>Family Room</option>
         </select>
-        <select>
+        <select name="city">
             <option value="Aberdeen">Aberdeen</option>
             <option value="Belfast">Belfast</option>
             <option value="Birmingham">Birmingham</option>
@@ -27,8 +27,9 @@
             <option value="Plymouth">Plymouth</option>
             <option value="Swansea">Swansea</option>
         </select>
-                <input type="date"> <br>
-        <input type="button" value="Search now">
+        <input type="date" name="in"> <br>
+        <input type="date" name="out"> <br>
+        <input type="submit" type="btn" value="Search now">
     </form>
 
     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Tellus pellentesque eu tincidunt tortor aliquam. Nisl nunc mi ipsum faucibus vitae aliquet nec ullamcorper. Sed faucibus turpis in eu mi bibendum. Hac habitasse platea dictumst quisque. Consectetur adipiscing elit duis tristique sollicitudin nibh. In pellentesque massa placerat duis ultricies. Lacus vel facilisis volutpat est velit egestas dui id. Suspendisse interdum consectetur libero id faucibus nisl tincidunt. Mauris pharetra et ultrices neque ornare aenean. Commodo ullamcorper a lacus vestibulum sed arcu non odio euismod. Mauris in aliquam sem fringilla ut. Scelerisque felis imperdiet proin fermentum leo vel. Leo urna molestie at elementum eu facilisis. Vel pretium lectus quam id leo in vitae.</p>
