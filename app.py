@@ -148,8 +148,11 @@ def login():
         username = request.form['username']
         password = request.form['password']
 
-        account = query_db(User, filters={'email': username,'hashed_password': check_password_hash(password)})
-        if account:
+        account = query_db(User, filters={'email': username})
+
+        password = check_password_hash(account.hashed_password, password)
+
+        if password:
             session['loggedin'] = True
             session['id'] = account.id
             session['email'] = account.email
